@@ -1,0 +1,279 @@
+# FastForward Defer
+A minimal utility that brings **defer-style execution** (similar to Go) to PHP using object scope and destructors.
+It allows you to register callbacks that will run **automatically at the end of a scope**, in **LIFO order (Last-In, First-Out)**.
+---
+
+## Core Concept
+A Defer instance represents a **scope-bound execution stack**.
+- Register callbacks using $defer(...) or $defer->defer(...)
+- Callbacks execute automatically when the object goes out of scope
+- Execution is always **LIFO (stack behavior)**
+- Execution is **guaranteed during exception unwinding**
+- Errors inside callbacks are **captured and reported**, without interrupting the chain
+---
+
+## Basic Usage
+```
+use FastForward\Defer\Defer;
+
+function example(): void
+{
+    $defer = new Defer();
+
+    $defer(function () {
+        echo "First defer\n";
+    });
+
+    $defer(function () {
+        echo "Second defer\n";
+    });
+
+    echo "Inside function\n";
+}
+
+example();
+```
+
+### Output
+```
+Inside function
+Second defer
+First defer
+```
+---
+
+## Using Arguments
+Deferred callbacks receive exactly the arguments you pass.
+```
+function example(): void
+{
+    $defer = new Defer();
+
+    $defer(function ($file) {
+        echo "Deleting {$file}\n";
+    }, 'temp.txt');
+
+    echo "Working...\n";
+}
+
+example();
+```
+
+### Output
+```
+Working...
+Deleting temp.txt
+```
+---
+
+## ⚠️ Execution Order Matters
+Deferred callbacks execute in **reverse order of registration**.
+```
+$defer(fn() => unlink($file));
+$defer(fn() => fclose($handle));
+```
+Execution order:
+```
+fclose($handle)
+unlink($file)
+```
+Always register in **reverse of the desired execution order**.
+---
+
+## Exception Safety
+Deferred callbacks always run, even if an exception occurs.
+```
+function process(): void
+{
+    $defer = new Defer();
+
+    $defer(fn() => print "Cleanup\n");
+
+    throw new Exception('Failure');
+}
+
+try {
+    process();
+} catch (Exception) {
+    echo "Exception caught\n";
+}
+```
+
+### Output
+```
+Cleanup
+Exception caught
+```
+---
+
+## Nested Scopes
+Each Defer instance is isolated.
+```
+function outer(): void
+{
+    $defer = new Defer();
+
+    $defer(fn() => print "Outer cleanup\n");
+
+    inner();
+}
+
+function inner(): void
+{
+    $defer = new Defer();
+
+    $defer(fn() => print "Inner cleanup\n");
+}
+
+outer();
+```
+
+### Output
+```
+Inner cleanup
+Outer cleanup
+```
+---
+
+## Helper Functions
+### defer()
+Creates a new Defer instance.
+```
+Inside function
+Second defer
+First defer0
+```
+---
+
+### scope()
+Runs a block with an isolated defer scope.
+```
+use function FastForward\Defer\scope;
+
+scope(function ($defer) {
+    $defer(fn() => print "Cleanup\n");
+
+    echo "Inside\n";
+});
+```
+---
+
+### using()
+Structured resource management (acquire → use → cleanup).
+```
+Inside function
+Second defer
+First defer2
+```
+---
+
+## Error Handling
+Deferred callbacks **never break execution flow**.
+- If a callback throws, execution continues
+- Errors are forwarded to an ErrorReporter
+- Default behavior uses error_log()
+---
+
+### Custom Error Reporter
+```
+Inside function
+Second defer
+First defer3
+```
+---
+
+### Composite Reporter
+```
+Inside function
+Second defer
+First defer4
+```
+---
+
+## PSR Integration
+### PSR-3 Logger
+```
+use FastForward\Defer\ErrorReporter\PsrLoggerErrorReporter;
+
+Defer::setErrorReporter(
+    new PsrLoggerErrorReporter($logger)
+);
+```
+---
+
+### PSR-14 Event Dispatcher
+```
+Inside function
+Second defer
+First defer6
+```
+This allows multiple listeners (logging, metrics, tracing, etc.).
+---
+
+## HTTP Middleware (PSR-15)
+You can bind a Defer instance to a request lifecycle.
+```
+Inside function
+Second defer
+First defer7
+```
+The middleware:
+- creates a Defer per request
+- injects it into request attributes
+- ensures execution at the end of the request
+---
+
+### Accessing Defer in Handlers
+```
+use FastForward\Defer\DeferInterface;
+
+$defer = $request->getAttribute(DeferInterface::class);
+$defer(fn() => cleanup());
+```
+---
+
+## Execution Model
+### Within a single scope
+- Last registered → runs first
+
+### Across nested scopes
+- Inner scope resolves before outer
+---
+
+## Design Principles
+- **Deterministic cleanup**
+- **Minimal API**
+- **No manual flush**
+- **Failure isolation**
+- **Extensible reporting**
+---
+
+## Notes
+- Execution is triggered by __destruct()
+- Do not share instances across scopes
+- Prefer short-lived instances
+- Avoid long-lived/global usage
+---
+
+## When to Use
+- resource cleanup
+- file handling
+- locks
+- temporary state
+- exception-safe teardown
+---
+
+## When NOT to Use
+- long-lived lifecycle management
+- orchestration logic
+- cases requiring explicit execution timing
+---
+
+## Summary
+Defer provides a strict and predictable cleanup model:
+- automatic execution at scope end
+- LIFO ordering
+- safe failure handling
+- pluggable reporting
+- PSR-friendly integrations
+It is intentionally **small, deterministic, and constrained**.

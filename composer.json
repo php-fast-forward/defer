@@ -1,0 +1,61 @@
+{
+    "name": "fast-forward/defer",
+    "description": "Fast Forward Deferred Callbacks utility classes",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Felipe Sayão Lobato Abreu",
+            "email": "github@mentordosnerds.com"
+        }
+    ],
+    "homepage": "https://github.com/php-fast-forward/defer",
+    "support": {
+        "issues": "https://github.com/php-fast-forward/defer/issues",
+        "source": "https://github.com/php-fast-forward/defer"
+    },
+    "require": {
+        "php": "^8.3",
+        "fast-forward/container": "^1.5",
+        "psr/http-server-middleware": "^1.0"
+    },
+    "require-dev": {
+        "fast-forward/dev-tools": "dev-main",
+        "fast-forward/http-message": "^1.3"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "FastForward\\Defer\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FastForward\\Defer\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "fast-forward/dev-tools": true,
+            "phpdocumentor/shim": true,
+            "phpro/grumphp": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        },
+        "grumphp": {
+            "config-default-path": "vendor/fast-forward/dev-tools/grumphp.yml"
+        }
+    },
+    "scripts": {
+        "dev-tools": "dev-tools",
+        "dev-tools:fix": "@dev-tools --fix"
+    }
+}
