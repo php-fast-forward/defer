@@ -1,18 +1,46 @@
 PSR-3 Logger Integration
 ========================
 
-FastForward Defer can report errors using any PSR-3 compatible logger.
+Use ``PsrLoggerErrorReporter`` when your application already centralizes
+operational visibility in a PSR-3 logger.
 
 .. code-block:: php
 
+   use FastForward\Defer\Defer;
    use FastForward\Defer\ErrorReporter\PsrLoggerErrorReporter;
+
    Defer::setErrorReporter(new PsrLoggerErrorReporter($logger));
 
-You MAY use any logger that implements the PSR-3 interface, such as Monolog.
+The reporter writes one ``error()`` entry with structured context. The context
+contains:
 
-Example:
+- ``exception_class``
+- ``message``
+- ``file``
+- ``line``
+- ``callback``
+- ``callback_arguments``
+- ``exception``
+
+Example with Monolog
+--------------------
 
 .. code-block:: php
+
+   use FastForward\Defer\Defer;
 
    $logger = new Monolog\Logger('defer');
    Defer::setErrorReporter(new PsrLoggerErrorReporter($logger));
+
+Operational note
+----------------
+
+``PsrLoggerErrorReporter`` delegates directly to your logger. If the logger
+throws, that exception can interrupt the remaining cleanup chain. In production,
+prefer loggers and handlers that do not throw during error reporting.
+
+Related pages
+-------------
+
+- :doc:`../advanced/error-reporting`
+- :doc:`../api/error-reporters`

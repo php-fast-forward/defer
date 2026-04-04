@@ -23,6 +23,22 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 final class ExampleInvoker
 {
     /**
+     * @return bool
+     */
+    public static function staticHandle(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function handle(): bool
+    {
+        return true;
+    }
+
+    /**
      * @return void
      */
     public function __invoke(): void {}
@@ -35,6 +51,7 @@ $callbacks = [
     ExampleInvoker::staticHandle(...),
     $object->handle(...),
     static fn(): null => null,
+    ExampleInvoker::staticHandle(...),
     $object,
 ];
 
