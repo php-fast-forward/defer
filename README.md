@@ -1,14 +1,15 @@
 # FastForward Defer
 
+A minimal utility that brings **defer-style execution** (similar to Go) to PHP using object scope and destructors.
+It allows you to register callbacks that will run **automatically at the end of a scope**, in **LIFO order (Last-In, First-Out)**.
+
 [![PHP Version](https://img.shields.io/badge/php-^8.3-777BB4?logo=php&logoColor=white)](https://www.php.net/releases/)
 [![Tests](https://img.shields.io/github/actions/workflow/status/php-fast-forward/defer/tests.yml?logo=githubactions&logoColor=white&label=tests&color=22C55E)](https://github.com/php-fast-forward/defer/actions/workflows/tests.yml)
 [![Coverage](https://img.shields.io/badge/coverage-phpunit-4ADE80?logo=php&logoColor=white)](https://php-fast-forward.github.io/defer/coverage/index.html)
 [![Docs](https://img.shields.io/github/deployments/php-fast-forward/defer/github-pages?logo=readthedocs&logoColor=white&label=docs&labelColor=1E293B&color=38BDF8&style=flat)](https://php-fast-forward.github.io/defer/index.html)
-[![License](https://img.shields.io/github/license/php-fast-forward/dev-tools?color=64748B)](LICENSE)
+[![License](https://img.shields.io/github/license/php-fast-forward/defer?color=64748B)](LICENSE)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/php-fast-forward?logo=githubsponsors&logoColor=white&color=EC4899)](https://github.com/sponsors/php-fast-forward)
 
-A minimal utility that brings **defer-style execution** (similar to Go) to PHP using object scope and destructors.
-It allows you to register callbacks that will run **automatically at the end of a scope**, in **LIFO order (Last-In, First-Out)**.
 ---
 
 ## Core Concept
