@@ -1,7 +1,7 @@
 # FastForward Defer
 
 <p align="center">
-  <img src="docs/_static/mascot-banner.png" alt="Dash handling stacked tasks at a scope boundary" width="840">
+  <img src="https://raw.githubusercontent.com/php-fast-forward/defer/f112c52cc8b1f2b4bc1b3bf6cb7918b4bc8fd9b6/docs/_static/mascot-banner.png" alt="Dash handling stacked tasks at a scope boundary" width="840">
 </p>
 
 [![PHP Version](https://img.shields.io/badge/php-^8.3-777BB4?logo=php&logoColor=white)](https://www.php.net/releases/)
