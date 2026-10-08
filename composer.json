@@ -16,7 +16,6 @@
     },
     "require": {
         "php": "^8.3",
-        "fast-forward/container": "^1.5",
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
