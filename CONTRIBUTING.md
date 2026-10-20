@@ -13,16 +13,19 @@ cpx --skip-local fast-forward/changelog check --since=origin/main --no-interacti
 
 Select the category and semantic impact that describe the change. Keep published
 history intact; pending notes belong in fragments rather than an `Unreleased`
-section. The project skill is installed at
-[`.agents/skills/fast-forward-changelog/SKILL.md`](.agents/skills/fast-forward-changelog/SKILL.md).
-Check its local integrity with
-`cpx --skip-local fast-forward/changelog skill:install --check --json`.
+section.
+
+Run `composer install` to restore the project skill into
+`.agents/skills/fast-forward-changelog` through the development-only `llm/skills`
+plugin and the reviewed GitHub source in `skills.json`. Generated skill files
+are ignored by Git. Use `composer skills:show` to inspect the source and
+`composer skills:update --from=github` for an explicit refresh within its
+configured version range. Review `skills.json` before changing that range.
 
 The [workflow](.github/workflows/changelog.yml) follows the maintainer-selected
 `v0` release channel. It validates PR notes, maintains PR feedback and prepares
-one version PR on `changelog/version`. The installed skill receipt records the
-concrete release from which that local copy was installed; it is checked and
-updated independently of the moving workflow channel.
+one version PR on `changelog/version`. The skill's configured GitHub version
+range is managed independently of the moving workflow channel.
 Review that PR's version, history and consumed fragments before merging.
 After that approved version PR is merged into `main`, automatic publication
 creates its version tag and GitHub Release. The workflow never merges PRs.

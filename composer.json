@@ -20,7 +20,8 @@
     },
     "require-dev": {
         "fast-forward/dev-tools": "dev-main",
-        "fast-forward/http-message": "^1.3"
+        "fast-forward/http-message": "^1.3",
+        "llm/skills": "^1.15"
     },
     "minimum-stability": "stable",
     "autoload": {
@@ -42,7 +43,8 @@
             "fast-forward/dev-tools": true,
             "phpdocumentor/shim": true,
             "phpro/grumphp": true,
-            "pyrech/composer-changelogs": true
+            "pyrech/composer-changelogs": true,
+            "llm/skills": true
         },
         "sort-packages": true
     },
