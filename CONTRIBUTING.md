@@ -18,8 +18,11 @@ section. The project skill is installed at
 Check its local integrity with
 `cpx --skip-local fast-forward/changelog skill:install --check --json`.
 
-The pinned [workflow](.github/workflows/changelog.yml) validates PR notes,
-maintains PR feedback and prepares one version PR on `changelog/version`.
+The [workflow](.github/workflows/changelog.yml) follows the maintainer-selected
+`v0` release channel. It validates PR notes, maintains PR feedback and prepares
+one version PR on `changelog/version`. The installed skill receipt records the
+concrete release from which that local copy was installed; it is checked and
+updated independently of the moving workflow channel.
 Review that PR's version, history and consumed fragments before merging.
 After that approved version PR is merged into `main`, automatic publication
 creates its version tag and GitHub Release. The workflow never merges PRs.
