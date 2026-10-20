@@ -360,3 +360,7 @@ Defer provides a strict and predictable cleanup model:
 - PSR-friendly integrations
 
 It is intentionally **small, deterministic, and constrained**.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for changelog fragments, local checks and the release-review flow.
