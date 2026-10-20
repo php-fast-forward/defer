@@ -20,6 +20,7 @@ if ($seen !== ['second', 'first']) {
     throw new RuntimeException('Cleanup must run in LIFO order.');
 }
 $cleaned = false;
+$propagated = false;
 try {
     scope(static function (DeferInterface $defer) use (&$cleaned): void {
         $defer(static function () use (&$cleaned): void { $cleaned = true; });
@@ -27,8 +28,12 @@ try {
     });
 } catch (RuntimeException $error) {
     if ($error->getMessage() !== 'application failure') { throw $error; }
+    $propagated = true;
 }
 unset($error);
+if (!$propagated) {
+    throw new RuntimeException('Application failure was not propagated.');
+}
 if (!$cleaned) {
     throw new RuntimeException('Cleanup did not run during exception unwinding.');
 }
