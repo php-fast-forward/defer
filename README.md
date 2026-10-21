@@ -364,3 +364,12 @@ It is intentionally **small, deterministic, and constrained**.
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for changelog fragments, local checks and the release-review flow.
+
+## Consumer agent skill
+
+The package includes [fast-forward-defer](resources/skills/fast-forward-defer/SKILL.md) for application integration.
+It supports `fast-forward/defer:^1.1`; inspect the installed version.
+See [skill installation and lifecycle](resources/skills/fast-forward-defer/references/installation.md) for
+optional project synchronization with `llm/skills ^1.15`, guarded manual
+project/global copies and a pinned Skills CLI alternative. Shipping files does
+not install tooling or activate the skill in an agent session.
