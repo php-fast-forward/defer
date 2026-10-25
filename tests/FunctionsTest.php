@@ -53,9 +53,11 @@ final class FunctionsTest extends TestCase
     {
         $flushed = false;
         $result = using(
-            fn($defer) => $defer,
-            function ($defer) use (&$flushed): int {
-                $defer->defer(function () use (&$flushed): void { $flushed = true; });
+            static fn($defer) => $defer,
+            static function ($defer) use (&$flushed): int {
+                $defer->defer(static function () use (&$flushed): void {
+                    $flushed = true;
+                });
 
                 return 42;
             }
@@ -72,8 +74,10 @@ final class FunctionsTest extends TestCase
     public function scopeWithCallbackWillFlushAndReturnResult(): void
     {
         $flushed = false;
-        $result = scope(function ($defer) use (&$flushed): int {
-            $defer->defer(function () use (&$flushed): void { $flushed = true; });
+        $result = scope(static function ($defer) use (&$flushed): int {
+            $defer->defer(static function () use (&$flushed): void {
+                $flushed = true;
+            });
 
             return 24;
         });

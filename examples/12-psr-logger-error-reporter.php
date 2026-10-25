@@ -20,7 +20,7 @@ use FastForward\Defer\Defer;
 use FastForward\Defer\ErrorReporter\PsrLoggerErrorReporter;
 use Psr\Log\AbstractLogger;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $logger = new class extends AbstractLogger {
     /**

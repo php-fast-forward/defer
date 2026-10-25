@@ -43,8 +43,12 @@ final class DeferTest extends TestCase
     public function deferExecutesCallbacksInLifoOrder(): void
     {
         $result = [];
-        $this->defer->defer(function () use (&$result): void { $result[] = 1; });
-        $this->defer->defer(function () use (&$result): void { $result[] = 2; });
+        $this->defer->defer(static function () use (&$result): void {
+            $result[] = 1;
+        });
+        $this->defer->defer(static function () use (&$result): void {
+            $result[] = 2;
+        });
         unset($this->defer);
         gc_collect_cycles();
         self::assertSame([2, 1], $result);
@@ -57,7 +61,9 @@ final class DeferTest extends TestCase
     public function deferInvokeAddsCallback(): void
     {
         $result = [];
-        $this->defer->defer(function () use (&$result): void { $result[] = 'a'; });
+        $this->defer->defer(static function () use (&$result): void {
+            $result[] = 'a';
+        });
         unset($this->defer);
         gc_collect_cycles();
         self::assertSame(['a'], $result);
@@ -71,7 +77,7 @@ final class DeferTest extends TestCase
     {
         self::assertTrue($this->defer->isEmpty());
         self::assertSame(0, $this->defer->count());
-        $this->defer->defer(fn(): null => null);
+        $this->defer->defer(static fn(): null => null);
         self::assertFalse($this->defer->isEmpty());
         self::assertSame(1, $this->defer->count());
     }
@@ -83,7 +89,9 @@ final class DeferTest extends TestCase
     public function deferWithArguments(): void
     {
         $result = null;
-        $this->defer->defer(function ($a, $b) use (&$result): void { $result = $a + $b; }, 2, 3);
+        $this->defer->defer(static function ($a, $b) use (&$result): void {
+            $result = $a + $b;
+        }, 2, 3);
         unset($this->defer);
         gc_collect_cycles();
         self::assertSame(5, $result);
@@ -113,7 +121,7 @@ final class DeferTest extends TestCase
             }
         };
         Defer::setErrorReporter($reporter);
-        $defer = new Defer(fn() => throw new Exception('fail'));
+        $defer = new Defer(static fn() => throw new Exception('fail'));
         unset($defer);
         gc_collect_cycles();
         self::assertTrue($reporter->reported);

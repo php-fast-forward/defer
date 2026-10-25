@@ -16,13 +16,12 @@ declare(strict_types=1);
  * @see       https://datatracker.ietf.org/doc/html/rfc2119
  */
 
-use FastForward\Defer\DeferInterface;
+
 
 use function FastForward\Defer\defer;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-/** @var DeferInterface $defer */
 $defer = defer();
 
 $defer(static fn(): int => print "cleanup via helper\n");

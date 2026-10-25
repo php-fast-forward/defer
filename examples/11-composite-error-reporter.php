@@ -21,7 +21,7 @@ use FastForward\Defer\ErrorReporter\CompositeErrorReporter;
 use FastForward\Defer\ErrorReporter\ErrorLogErrorReporter;
 use FastForward\Defer\ErrorReporterInterface;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $stdoutReporter = new class implements ErrorReporterInterface {
     /**

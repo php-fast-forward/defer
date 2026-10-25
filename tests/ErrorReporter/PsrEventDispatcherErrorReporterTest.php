@@ -58,11 +58,11 @@ final class PsrEventDispatcherErrorReporterTest extends TestCase
 
         $this->dispatcher->dispatch(
             Argument::that(
-                fn($event): bool => $event instanceof DeferredCallbackFailed && $event->throwable === $throwable
+                static fn($event): bool => $event instanceof DeferredCallbackFailed && $event->throwable === $throwable
             )
         )->shouldBeCalled();
 
-        $this->reporter->report($throwable, fn(): null => null);
+        $this->reporter->report($throwable, static fn(): null => null);
     }
 
     /**
@@ -84,7 +84,7 @@ final class PsrEventDispatcherErrorReporterTest extends TestCase
         $logFile = tempnam(sys_get_temp_dir(), 'log');
         $originalErrorLog = ini_set('error_log', $logFile);
 
-        $reporter->report($throwable, fn(): null => null);
+        $reporter->report($throwable, static fn(): null => null);
 
         ini_set('error_log', $originalErrorLog ?: '');
         $logContent = file_get_contents($logFile);
