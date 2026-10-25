@@ -44,6 +44,6 @@ final class ErrorLogErrorReporterTest extends TestCase
     public function reportWithThrowableWillOutputError(): void
     {
         $this->expectOutputRegex('/fail/');
-        $this->reporter->report(new Exception('fail'), function (): void {});
+        $this->reporter->report(new Exception('fail'), static function (): void {});
     }
 }

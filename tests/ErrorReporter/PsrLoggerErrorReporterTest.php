@@ -57,10 +57,10 @@ final class PsrLoggerErrorReporterTest extends TestCase
         $this->logger->error(
             Argument::containingString('Deferred callback failed:'),
             Argument::that(
-                fn($context): bool => isset($context['exception_class']) && 'Exception' === $context['exception_class']
+                static fn($context): bool => isset($context['exception_class']) && 'Exception' === $context['exception_class']
             )
         )->shouldBeCalledOnce();
 
-        $this->reporter->report($throwable, fn(): null => null);
+        $this->reporter->report($throwable, static fn(): null => null);
     }
 }

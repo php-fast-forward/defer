@@ -40,7 +40,7 @@ final class CallbackDescriberTest extends TestCase
     #[Test]
     public function describeWithClosureWillReturnClosureString(): void
     {
-        $closure = function (): void {};
+        $closure = static function (): void {};
         $desc = CallbackDescriber::describe($closure);
         self::assertStringContainsString('Closure@', $desc);
     }

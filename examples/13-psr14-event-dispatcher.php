@@ -21,7 +21,7 @@ use FastForward\Defer\ErrorReporter\PsrEventDispatcherErrorReporter;
 use FastForward\Defer\EventDispatcher\Event\DeferredCallbackFailed;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $dispatcher = new class implements EventDispatcherInterface {
     /**

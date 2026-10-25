@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 use FastForward\Defer\Support\CallbackDescriber;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 final class ExampleInvoker
 {

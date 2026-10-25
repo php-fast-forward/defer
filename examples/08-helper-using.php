@@ -20,7 +20,7 @@ use FastForward\Defer\DeferInterface;
 
 use function FastForward\Defer\using;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 using(
     static function (DeferInterface $defer) {

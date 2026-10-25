@@ -20,7 +20,7 @@ use FastForward\Defer\DeferInterface;
 
 use function FastForward\Defer\scope;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 scope(static function (DeferInterface $defer): void {
     $defer(static fn(): int => print "scope cleanup 1\n");
